@@ -1,11 +1,22 @@
 const { Router } = require('express');
-const { usuariosGet, usuariosPut, usuariosPost, usuariosDelete, usuariosPatch } = require('../controllers/usuarios');
 const { check } = require('express-validator');
-const router = Router();
 
-const { validarCampos } = require('../middlewares/validar-campos');
+const {
+    validarCampos,
+    validarJWT,
+    esAdminRole,
+    tieneRole
+} = require('../middlewares')
+
 const { esRoleValido, emailExiste, existeUsuarioPorId } = require('../helpers/db-validators');
 
+const { usuariosGet,
+    usuariosPut,
+    usuariosPost,
+    usuariosDelete,
+    usuariosPatch } = require('../controllers/usuarios');
+
+const router = Router();
 
 router.get('/', usuariosGet);
 
@@ -36,6 +47,12 @@ router.put('/:id', [
 router.patch('/', usuariosPatch);
 
 router.delete('/:id', [
+    //Esta funcion me permite comprobar si el usuario 
+    //Puede hacer esta funcion
+    //Por eso se pone de primero por que se ejecutan secuencial
+    validarJWT,
+    //esAdminRole,
+    tieneRole('ADMIN_ROLE', 'VENTAS_ROLE'),
     //Valido con las funciones de Evalidator si el id existe
     check('id', 'No es un id valido').isMongoId(),
     check('id').custom(existeUsuarioPorId),

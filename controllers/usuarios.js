@@ -85,6 +85,10 @@ const usuariosDelete = async (req, res=response) => {
 
     // Suguerido para mantener la integridad de la informacion
     const usuario = await Usuario.findByIdAndUpdate( id, {estado:false} , {new:true});
+
+    // de la req miro cual es mi usuario autenticado
+    //const usuarioAutenticado = req.usuario;
+
     res.status(201).json({
         msg: 'Usuario Eliminado Correctamente',
         usuario
