@@ -24,7 +24,7 @@ const existeUsuarioPorId = async ( id ) => {
     //Verificar si el correo existe
     const existeUsuario = await Usuario.findById(id);
     if (!existeUsuario) {
-        throw new Error(`El id: ${ id } no existe`);
+        throw new Error(`El id: ${ id } de este usuario no existe`);
     }
 }
 
@@ -34,7 +34,7 @@ const existeCategoriaPorId = async ( id ) => {
 
     const existeCategoria = await Categoria.findById(id);
     if (!existeCategoria) {
-        throw new Error(`El id: ${ id } no existe`);
+        throw new Error(`El id: ${ id }  de esta categoria no existe`);
     }
 }
 
